@@ -21,7 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: ls .
-    - name: Accessing reepository secret
+    - name: Accessing reepository secret!
       run: echo secret - ${{ secrets.GENERICREPOSECRET }}
     
     - name: Cache node modules
