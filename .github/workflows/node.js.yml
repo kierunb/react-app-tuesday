@@ -41,21 +41,27 @@ jobs:
   deploy-to-test:
     runs-on: ubuntu-latest
     needs: build
+    environment: test
+    concurrency: test
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: ${{format('artifacts{0}', '16')}}
       - run: ls .
+      - run: echo test secret - ${{ secrets.ConnectionString }}
       - run: echo Deploying to TEST enviroment.
       
   deploy-to-prod:
     runs-on: ubuntu-latest
     needs: deploy-to-test
+    environment: prod
+    concurrency: prod
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: ${{format('artifacts{0}', '16')}}
       - run: ls .
+      - run: echo prod secret - ${{ secrets.ConnectionString }}
       - run: echo Deploying to PROD enviroment.
