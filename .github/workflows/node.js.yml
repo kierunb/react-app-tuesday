@@ -16,11 +16,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16]
+        node-version: [16]
 
     steps:
     - uses: actions/checkout@v3
     - run: ls .
+    - name: Accessing reepository secret
+      run: echo secret - ${{ secrets.GENERICREPOSECRET }}
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
@@ -29,13 +32,6 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-    - name: Lint Code Base
-      uses: github/super-linter@v4
-      env:
-        DISABLE_ERRORS: true
-        VALIDATE_ALL_CODEBASE: false
-        DEFAULT_BRANCH: master
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload application artifacts
       uses: actions/upload-artifact@v3
       with:
